@@ -21,6 +21,8 @@ fi
 # shellcheck source=/dev/null
 . "${LAZY_ROOT}/lib/test.sh"
 
+export LAZY_TEST_FORCE_COLOR="${LAZY_TEST_FORCE_COLOR:-1}"
+
 _lazy_test_mode="${LAZY_TEST_MODE:-}"
 case "${0##*/}" in
   run.sh) _lazy_test_mode="${1:-${_lazy_test_mode}}" ;;

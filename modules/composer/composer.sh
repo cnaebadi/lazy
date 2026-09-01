@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # modules/composer/composer.sh — composer shortcuts
 # prefix: c
-# public: cins cup creq cdu crun
+# public: cins cup creq cdu crs
 #
 # usage:
 #   cins                       composer install
 #   cup                        composer update
 #   creq laravel/sanctum       composer require
 #   cdu                        dump-autoload
-#   crun test                  composer run-script test
+#   crs test                   composer run-script test
 
 # ── internals ────────────────────────────────────────
 
@@ -46,7 +46,7 @@ lazy_composer_dump() {
 
 lazy_composer_run() {
   if [ $# -eq 0 ]; then
-    lazy_error "crun <script>"
+    lazy_error "crs <script>"
     return 2
   fi
   lazy_composer run-script "$@"
@@ -54,7 +54,7 @@ lazy_composer_run() {
 
 # ── public API ───────────────────────────────────────
 
-lazy_register composer cins cup creq cdu crun
+lazy_register composer cins cup creq cdu crs
 
 function cins() {
   lazy_composer_install "$@"
@@ -72,6 +72,6 @@ function cdu() {
   lazy_composer_dump "$@"
 }
 
-function crun() {
+function crs() {
   lazy_composer_run "$@"
 }

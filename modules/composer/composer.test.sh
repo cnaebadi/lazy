@@ -24,11 +24,11 @@ exit 0
   cdu >/dev/null 2>&1
   lazy_test_assert_contains "composer:cdu" "$(lazy_test_mock_last composer)" "dump-autoload"
 
-  crun test >/dev/null 2>&1 || { lazy_test_line "composer:crun" fail "crun"; return; }
-  lazy_test_assert_contains "composer:crun" "$(lazy_test_mock_last composer)" "run-script test"
+  crs test >/dev/null 2>&1 || { lazy_test_line "composer:crs" fail "crs"; return; }
+  lazy_test_assert_contains "composer:crs" "$(lazy_test_mock_last composer)" "run-script test"
 
   lazy_test_assert_fail "composer:creq-missing" creq
-  lazy_test_assert_fail "composer:crun-missing" crun
+  lazy_test_assert_fail "composer:crs-missing" crs
 }
 
 lazy_test_composer_full

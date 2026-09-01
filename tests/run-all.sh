@@ -4,6 +4,7 @@ set -e
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 FAIL=0
+export LAZY_TEST_FORCE_COLOR=1
 
 run() {
   printf '\n======== %s ========\n' "$1"
@@ -24,6 +25,7 @@ GIT_REMOTE=origin
 EOF
 
 run "health" "
+  export LAZY_TEST_FORCE_COLOR=1
   export LAZY_CONFIG='${CONF}'
   export LAZY_MODULES='${MODULES}'
   . '${ROOT}/lazy.sh'
@@ -32,6 +34,7 @@ run "health" "
 "
 
 run "full" "
+  export LAZY_TEST_FORCE_COLOR=1
   export LAZY_CONFIG='${CONF}'
   export LAZY_MODULES='${MODULES}'
   . '${ROOT}/lazy.sh'
@@ -40,6 +43,7 @@ run "full" "
 "
 
 run "uninstall" "
+  export LAZY_TEST_FORCE_COLOR=1
   export LAZY_ROOT='${ROOT}'
   export LAZY_CONFIG='${CONF}'
   . '${ROOT}/lib/test.sh'
@@ -51,9 +55,11 @@ run "uninstall" "
 "
 
 run "zsh health" "
+  export LAZY_TEST_FORCE_COLOR=1
   export LAZY_CONFIG='${CONF}'
   export LAZY_MODULES='${MODULES}'
   zsh -f -c '
+    export LAZY_TEST_FORCE_COLOR=1
     . \"${ROOT}/lazy.sh\"
     . \"${ROOT}/lib/test.sh\"
     lazy_test_run_all

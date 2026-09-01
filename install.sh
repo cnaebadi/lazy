@@ -300,6 +300,7 @@ lazy_install_run_tests() {
 
   if [ "${LAZY_YES:-0}" = "1" ]; then
     bash --noprofile --norc -c "
+      export LAZY_TEST_FORCE_COLOR=1
       export LAZY_CONFIG='${conf}'
       . '${prefix}/lazy.sh'
       . '${prefix}/lib/test.sh'
@@ -309,6 +310,7 @@ lazy_install_run_tests() {
   fi
 
   "$shell" -i -c "
+    export LAZY_TEST_FORCE_COLOR=1
     export LAZY_CONFIG='${conf}'
     if [ -z \"\${LAZY_ROOT:-}\" ]; then
       . '${prefix}/lazy.sh'

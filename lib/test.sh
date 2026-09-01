@@ -4,7 +4,7 @@
 # so leftover aliases are actually visible.
 
 lazy_test_init_colors() {
-  if [ -t 1 ] || [ "${LAZY_TEST_FORCE_COLOR:-}" = "1" ]; then
+  if [ -t 1 ] || [ "${LAZY_TEST_FORCE_COLOR:-}" = "1" ] || [ -n "${CI:-}" ] || [ -n "${GITHUB_ACTIONS:-}" ]; then
     LAZY_TEST_GREEN="$(printf '\033[32m')"
     LAZY_TEST_RED="$(printf '\033[31m')"
     LAZY_TEST_YELLOW="$(printf '\033[33m')"
