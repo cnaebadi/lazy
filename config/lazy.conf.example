@@ -1,0 +1,36 @@
+# lazy config — copy to ~/.config/lazy/lazy.conf
+# only set what you want to change. missing keys use defaults.
+
+# ── git ──────────────────────────────────────────────
+GIT_REMOTE=origin
+GIT_PULL_REBASE=true
+
+# ── docker ───────────────────────────────────────────
+DOCKER_COMPOSE_FILE=docker-compose.yml
+# DOCKER_COMPOSE_PROJECT=   # optional project name (-p)
+
+# ── k8s ──────────────────────────────────────────────
+K8S_NAMESPACE=default
+K8S_CONTEXT=              # empty = current context
+
+# ── postgres ─────────────────────────────────────────
+PG_HOST=localhost
+PG_PORT=5432
+PG_USER=postgres
+# PG_DATABASE=
+
+# ── redis ────────────────────────────────────────────
+REDIS_HOST=localhost
+REDIS_PORT=6379
+
+# ── aws ──────────────────────────────────────────────
+AWS_PROFILE_DEFAULT=default
+AWS_REGION_DEFAULT=us-east-1
+
+# ── node ─────────────────────────────────────────────
+# NODE_PACKAGE_MANAGER=npm   # npm | yarn | pnpm | bun (empty = auto)
+
+# ── lazy itself ──────────────────────────────────────
+# LAZY_MODULES=git,docker,k8s,aws,node,composer
+# leave empty / unset = load all shipped modules
+# LAZY_UNALIAS=false          # true = drop colliding aliases on load

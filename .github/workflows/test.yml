@@ -1,0 +1,19 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lazy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: deps
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq git zsh
+
+      - name: run-all
+        run: bash tests/run-all.sh

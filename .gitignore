@@ -1,0 +1,14 @@
+# OS junk
+.DS_Store
+
+# local overrides — never commit real user config
+config/lazy.conf
+*.local.sh
+
+# editor
+.idea/
+.vscode/
+*.swp
+
+# local test leftovers
+.lazy-git-test.*
