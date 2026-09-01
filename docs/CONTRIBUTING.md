@@ -96,6 +96,17 @@ every public command needs a test in `modules/<domain>/<domain>.test.sh`.
 - health: function exists, no alias in the way, no surprise binary
 - behavior (full mode): the command actually does the thing, or `skip` if the tool isn't installed
 
+### 9. docs
+
+every public command must be documented in `docs/<domain>.md`.
+
+- add a row to the command table when you add a command
+- update the module header comment in `modules/<domain>/<domain>.sh` too
+- new module? add `docs/<domain>.md` and link it from `docs/README.md`
+- placeholder modules stay marked **not implemented yet** until they ship
+
+if you add a command but skip docs or tests, the PR is incomplete.
+
 ---
 
 ## module layout
@@ -104,6 +115,9 @@ every public command needs a test in `modules/<domain>/<domain>.test.sh`.
 modules/<domain>/
   <domain>.sh         # internals + public functions
   <domain>.test.sh    # one check per public command
+docs/
+  <domain>.md         # command reference for that module
+  README.md           # index of all modules
 ```
 
 shared helpers → `lib/`.
@@ -119,6 +133,7 @@ config keys → `config/lazy.conf.example` (and document the default).
 - [ ] works in bash and zsh
 - [ ] args can override config
 - [ ] tests for every public command
+- [ ] docs updated in `docs/<domain>.md`
 - [ ] short comment on non-obvious behavior
 - [ ] updated example config if you added a key
 - [ ] no unrelated refactors

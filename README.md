@@ -39,6 +39,19 @@ dcu           # docker compose up -d
 
 no aliases. only functions. config lives in `~/.config/lazy/lazy.conf`.
 
+## commands
+
+full list per module → [`docs/`](docs/README.md)
+
+| module | guide |
+|--------|-------|
+| git | [docs/git.md](docs/git.md) |
+| docker | [docs/docker.md](docs/docker.md) |
+| k8s | [docs/k8s.md](docs/k8s.md) |
+| aws | [docs/aws.md](docs/aws.md) |
+| node | [docs/node.md](docs/node.md) |
+| composer | [docs/composer.md](docs/composer.md) |
+
 ## config
 
 ```bash
