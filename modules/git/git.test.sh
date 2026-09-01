@@ -89,4 +89,64 @@ lazy_test_git_full() {
   cd "$saved" || true
 }
 
+lazy_test_git_remote_branch() {
+  local tmp
+  tmp="$(mktemp -d "${TMPDIR:-/tmp}/lazy-git-rb-test.XXXXXX")" || {
+    lazy_test_line "git:remote-branch" fail "mktemp"
+    return
+  }
+
+  if ! lazy_has git; then
+    rm -rf "$tmp"
+    lazy_test_line "git:remote-branch" skip "git not installed"
+    return
+  fi
+
+  lazy_test_git_repo "$tmp"
+
+  (
+    cd "$tmp" || exit 1
+
+    command git remote add origin .
+    command git remote add hamgit .
+    command git checkout -b development >/dev/null 2>&1
+
+    local real_git
+    real_git="$(command -v git)"
+
+    lazy_test_mock_reset
+    lazy_test_mock_cmd git "
+case \"\$1\" in
+  remote|branch|rev-parse)
+    ${real_git} \"\$@\"
+    ;;
+  *)
+    printf \"%s\n\" \"\$*\" >> \"\$LAZY_TEST_MOCK_DIR/log/git\"
+    exit 0
+    ;;
+esac
+"
+
+    export GIT_REMOTE=hamgit
+    export GIT_PULL_REBASE=true
+
+    gpl development >/dev/null 2>&1 || exit 1
+    lazy_test_assert_contains "git:gpl-branch" "$(lazy_test_mock_last git)" "pull --rebase hamgit development"
+
+    gps hamgit >/dev/null 2>&1 || exit 1
+    lazy_test_assert_contains "git:gps-remote" "$(lazy_test_mock_last git)" "push hamgit development"
+
+    gps main >/dev/null 2>&1 || exit 1
+    lazy_test_assert_contains "git:gps-branch" "$(lazy_test_mock_last git)" "push hamgit main"
+
+    gpl hamgit main >/dev/null 2>&1 || exit 1
+    lazy_test_assert_contains "git:gpl-remote-branch" "$(lazy_test_mock_last git)" "pull --rebase hamgit main"
+  )
+  local rc=$?
+
+  rm -rf "$tmp"
+  [ "$rc" -eq 0 ] || return
+}
+
 lazy_test_git_full
+lazy_test_git_remote_branch

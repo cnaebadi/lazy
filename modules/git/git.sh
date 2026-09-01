@@ -14,8 +14,10 @@
 #   gps                        git push <GIT_REMOTE> <current>
 #   gps hamgit                 git push hamgit <current>
 #   gps hamgit main            git push hamgit main
+#   gps main                   git push <GIT_REMOTE> main   (one arg = branch when not a remote)
 #   gps --force                flags after optional remote/branch
 #   gpl                        git pull [--rebase] <GIT_REMOTE> <current>
+#   gpl development            git pull <GIT_REMOTE> development
 #   glog                       pretty log
 #   gundo                      uncommit last (soft reset, keeps files)
 #   gundo --hard               drop last commit AND its changes
@@ -57,8 +59,14 @@ lazy_git_needs_rebase_flag() {
   lazy_truthy "${GIT_PULL_REBASE:-true}"
 }
 
+lazy_git_is_remote() {
+  command git remote get-url "$1" >/dev/null 2>&1
+}
+
 # Shared push/pull path so remote+branch parsing lives in one place.
 # usage: lazy_git_remote_cmd push|pull [remote] [branch] [flags...]
+# One positional arg: remote if it exists, otherwise branch (keeps GIT_REMOTE).
+# Two positional args: remote then branch.
 lazy_git_remote_cmd() {
   local action="$1"
   shift
@@ -69,13 +77,17 @@ lazy_git_remote_cmd() {
   branch="$(lazy_git_current_branch)" || return $?
 
   if [ $# -gt 0 ] && ! lazy_is_flag "$1"; then
-    remote="$1"
-    shift
-  fi
-
-  if [ $# -gt 0 ] && ! lazy_is_flag "$1"; then
-    branch="$1"
-    shift
+    if [ $# -ge 2 ] && ! lazy_is_flag "$2"; then
+      remote="$1"
+      branch="$2"
+      shift 2
+    elif lazy_git_is_remote "$1"; then
+      remote="$1"
+      shift
+    else
+      branch="$1"
+      shift
+    fi
   fi
 
   case "$action" in
